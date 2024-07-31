@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EMG Controlled Scorbot Using Machine Learning</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        header {
+            background: #333;
+            color: #fff;
+            padding: 30px 0;
+            border-bottom: #77aaff 3px solid;
+            text-align: center;
+        }
+        header h1 {
+            margin: 0;
+        }
+        header nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 20px 0 0;
+            text-align: center;
+        }
+        header nav ul li {
+            display: inline;
+            margin: 0 15px;
+            
+
+        }
+        header nav ul li a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 16px;
+            text-align: center;
+        }
+        .container {
+            width: 80%;
+            margin: auto;
+            overflow: hidden;
+
+        }
+        .main-content {
+            padding: 20px;
+            background: #fff;
+            margin-bottom: 20px;
+            border-radius: 8px;
+        }
+        section {
+            margin-bottom: 40px;
+        }
+        h2 {
+            border-bottom: 2px solid #77aaff;
+            padding-bottom: 5px;
+        }
+        p, ul {
+            text-align: justify;
+        }
+        img {
+            max-width: 50%;
+            height: auto;
+            border-radius: 8px;
+        }
+        .single-image, .two-images {
+            margin: 20px 0;
+            text-align: center;
+
+        }
+        .two-images {
+            display: flex;
+            justify-content: space-between;
+        }
+        .two-images img {
+            width: 48%;
+        }
+        .contact-box {
+            background: #333;
+            color: #fff;
+            
+            border-radius: 20px;
+            margin-bottom: 40px;
+
+            padding: 1rem;
+            margin: 1rem auto;
+            max-width: 950px;
+        }
+        footer {
+            background: #333;
+            color: #fff;
+            text-align: center;
+            border-top: #77aaff 3px solid;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>EMG Controlled Scorbot Using Machine Learning</h1>
+            <nav>
+                <ul>
+                    <li><a href="#abstract">Abstract</a></li>
+                    <li><a href="#introduction">Introduction</a></li>
+                    <li><a href="#methodology">Methodology</a></li>
+                    <li><a href="#results">Results</a></li>
+                    <li><a href="#conclusion">Conclusion</a></li>
+                    <li><a href="#reference">Reference</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <div class="container main-content">
+        <section id="abstract">
+            <h2>Abstract</h2>
+            <p>The project aims to design a control system for a robotic arm utilizing Electromyographic (EMG) signal pattern recognition from muscle movements. Categorizing distinct EMG signal patterns associated with specific gestures by utilizing advanced signal processing methods and machine learning algorithms, integrating with a microcontroller to give instructions for an existing robotic arm to move to certain positions with respect to different gestures, is achievable. A system with sensors and controllers can be used for real-time analysis, advances assistive technology accessibility, efficiently and convenient control system for robotic arms.</p>
+        </section>
+        <section id="introduction">
+            <h2>Introduction</h2>
+            <p>The integration of EMG signals with robotic technology represents a significant advancement in the field of assistive devices and industrial robots. EMG sensors can interpret bioelectric signals as achievable commands, which can be translated into the precise movements of the robotic arm. This offers a glimpse into the future where technology can integrate with the human body to enhance function.</p>
+        </section>
+        <section id="methodology">
+            <h2>Methodology</h2>
+            <h3>Raw sEMG</h3>
+            <p>Understanding EMG signals is the very first part of this project. It is a diagnostic tool used to assess the health of muscles and the nerves that control them. Most hospitals and experts use needle electrodes for the analysis of intramuscular EMG but in our case due to limitations, we used Surface electrodes to work with surface EMG. The tiny electrical signals produced by muscle fiber when they are activated vary according to the actions. Each tiny signal triggered by nerve impulses generates a minuscule electrical shape called motor unit action potential. The superimposing of many such signals forms an EMG pattern. For these signals, the frequency varies from 0-600Hz range maximum for different movements and contractions and is of millivolt size. For acquiring the signals you need a sensor with high gain, which we used here in our project.</p>
+            <div class="single-image">
+                <img src="ll.png" alt="Raw EMG Signal">
+            </div>
+            <h3>Sensor and Acquisition</h3>
+            <p>Acquiring the signal using Muscle Sensor V3, it is an electronic device used in biofeedback and human-computer interaction applications. As the EMG signals are very weak signals and there can be a chance of noise interference, we need to eliminate the noise along with amplifying the signal. The sensor itself has this part. From the three surface electrodes, two of them are placed on the muscle area and one of them on the bony area as a reference, the signals are transmitted over a cable to the sensor using an AUX pin as input to the sensor. The received signal is then amplified, rectified, and filtered. The analog signals are then fed to the analog pin of a data acquisition system. In this case, we used Arduino Uno. By connecting the serial port of the Arduino with an application named Serial Analyzer, we can analyze and store the data as a text file. Later for machine learning purposes, we can transfer and label all the collected data into a CSV file.</p>
+            <div class="single-image">
+                <img src="KS.jpg" alt="Amplified Signal">
+            </div>
+            <h3>Feature Extraction</h3>
+            <p>The approach for feature extraction involves utilizing Short-Time Fourier Transform (STFT). The STFT is a signal processing technique that allows the frequency content of a signal to be analyzed over time. It is a variation of the Fourier transform, which is a mathematical technique used to convert a time-domain signal into its frequency-domain representation.</p>
+            <div class="single-image">
+                <img src="20.png" alt="Feature Extraction">
+            </div>
+            <p>In the STFT, the signal is divided into short overlapping time segments, each of which is analyzed using the Fourier transform. This allows the frequency content of the signal to be analyzed over time, providing a time-frequency representation of the signal. The STFT is a powerful tool for analyzing signals in the time-frequency domain, and it has many important applications in digital signal processing. In our analysis, we utilized Short-Time Fourier Transform (STFT) to dissect the data's frequency content over time, visualizing it through spectrograms. By identifying regions with significant color changes, indicative of signal shifts or events, we effectively pinpointed areas of interest in the signal's temporal evolution. Calculating the mean magnitude within these regions provided insights into their amplitude.</p>
+            <div class="two-images">
+                <img src="stft.png" alt="STFT Analysis">
+                <img src="14.png" alt="Spectrogram">
+            </div>
+            <h3>Robotic Arm</h3>
+            <p>After the machine learning part, the crucial part is to train and feed output to the robotic arm to move with respect to prediction. We can assign one specific position to the robotic arm for one specific arm movement. Using an educational robot provided by the institution named Scorbot E4 Ru and Scorbase from Intelitek made our task easier. As we took only four movements earlier, here there is only a need of assigning four positions of the robot. The four digital inputs coming from the microcontroller are fed onto the controller of the robot and running Scorbase program to always monitor the digital input.</p>
+            <p>For more information about the Scorbot’s digital control check out: https://adithyanm17.github.io/ScorbotControllerAndControls/ </p>
+            <div class="single-image">
+                <img src="ff.png" alt="Robotic Arm Trained Position">
+            </div>
+            <h3>Machine Learning</h3>
+            <p>Integrating the extracted features into Support Vector Machine (SVM) modeling will enable us to discern patterns and anomalies in the signal's behavior over time. This meticulous approach not only enhances understanding but also facilitates the detection of crucial signal dynamics essential for effective machine learning classification.</p>
+        </section>
+        <section id="results">
+            <h2>Results</h2>
+            <p>We applied Short-Time Fourier Transform (STFT) to the data. After computing the STFT, we examined the resulting spectrogram, which provides a visual representation of the signal's frequency content over time. In this spectrogram, we identified regions where significant color changes occurred, suggesting notable shifts or events within the signal. These regions could indicate events of interest in the signal's temporal evolution. Furthermore, we calculated the mean magnitude within each identified region, offering insights into the amplitude of these signal events. We extracted the durations of these identified regions as features along with the mean magnitude for each signal. This analysis helped us understand better how the signal changes over time. By looking closely at how the signal behaves over different time periods, we could spot important patterns or unusual things happening.</p>
+            <div class="two-images">
+                <img src="hand.png" alt="Electrode Placement">
+                <img src="serial.png" alt="Serial Analyzer">
+            </div>
+            <p>Note: Make sure your COM port is selected in the serial port. If not getting connected try closing Arduino IDE because there is a chance that the application is using the port and it can’t be used by any other application at that time.</p>
+            <h3>Feature</h3>
+            <p>In the figure above, you can clearly see the variation in the magnitude which is denoted by the yellow color.</p>
+            <div class="single-image">
+                <img src="7.png" alt="Extracting Feature">
+            </div>
+            <h3>Robot Training</h3>
+            <p>We believe that from the above-mentioned link you got the answer How to train Scorbot.</p>
+            <div class="single-image">
+                <img src="circuit.png" alt="Circuit Diagram">
+            </div>
+            <h3>Machine Learning and Implementation</h3>
+            <p>After the spectrogram analysis and feature extraction, we applied a Support Vector Machine (SVM) to classify the identified events within the signal. The features used for the SVM included the mean magnitude and duration of each region identified in the spectrogram. The SVM model was trained to recognize patterns and differentiate between various types of events based on these features. This machine learning approach helped in accurately categorizing signal events, enhancing our ability to detect and analyze significant changes within the signal over time. For distinct predictions, we made distinct digital pins of the Microcontroller high so that the signal is read by the operating software and move the robotic arm to a predefined position with respect to the arm movement.</p>
+            <div class="single-image">
+                <img src="flowchart.jpg" alt="Flow Chart of the Entire Process">
+            </div>
+        </section>
+        <section id="conclusion">
+            <h2>Conclusion and Future Scope</h2>
+            <p>This project successfully demonstrates an sEMG-controlled robotic arm powered by machine learning. A machine learning algorithm, Support Vector Machine (SVM), is key to deciphering the intricate patterns within the user's EMG signals. Several technical aspects are crucial for success. First, extracting relevant features from the raw SEMG signal using techniques like time-frequency domain analysis with short-time Fourier transform (STFT) was essential for accurate classification. The mean of magnitude over the area of variation was analyzed and extracted as features. Second, selecting and training a suitable machine learning model on a comprehensive dataset of EMG recordings paired with desired arm movements was critical. Third, real-time processing ensures minimal delay between muscle activation and robotic arm response. Finally, calibration personalizes the system for each user, and a user-friendly interface translates classified EMG signals into intuitive control commands for the robotic arm.</p>
+            <p>Exploring deeper learning architectures for potentially more robust and accurate EMG pattern recognition will enhance this project. By that, we can expand the system beyond basic movements to allow for more nuanced control, like wrist rotation or individual finger manipulation. Developing a user-friendly interface with visual or haptic feedback mechanisms to provide users with real-time information about the robotic arm's state and performance.</p>
+        </section>
+        <section id="reference">
+            <h2>References</h2>
+            <ol>
+                <li>Shribhate, S. Rukhsar, and L. Mahajan, “Robotic arm control using human forearm EMG signals,” International Research Journal of Modernization in Engineering Technology and Science, vol. 05, no. 05, pp. 9402–9406, May 2023. doi:10.56726/irjmets39062</li>
+                <li>A. Abdhul, D. Subramani, J. Ganesan, S. Subramaniam, and K. G. Dharani, “Design and development of EMG based Industrial robot Arm,” 2020 6th International Conference on Advanced Computing and Communication Systems (ICACCS), pp. 502–504, May 2020. doi:10.1109/icaccs48705.2020.9074206</li>
+                <li>K. Xu, W. Guo, L. Hua, X. Sheng, and X. Zhu, “A industrial robot arm based on EMG Pattern Recognition,” 2016 IEEE International Conference on Robotics and Biomimetics (ROBIO), pp. 1179–1184, Dec. 2016. doi:10.1109/robio.2016.7866485</li>
+                <li>Kanwade, A. and Bairagi, V.K. (2019) ‘Classification of COPD and Normal Lung Airways using feature extraction of electromyographic signals’, Journal of King Saud University - Computer and Information Sciences, 31(4), pp. 506–513. doi:10.1016/j.jksuci.2017.05.006.</li>
+                <li>M. Y. Almuhanna, “Cost-effective industrial robot hand controlled by EMG,” Digital Commons @ DU, https://digitalcommons.du.edu/etd/1200/.</li>
+            </ol>
+        </section>
+    </div>
+    <footer class="contact-box">
+        <div class="contact-box">
+            <h3>Contact Details</h3>
+            <p>Email: adithyanm45@gmail.com</p>
+            <p><a href="https://www.linkedin.com/in/adithyan-m-a12174229/" target="_blank" style="color: #fff;">My_LinkedIn</a></p>
+        </div>
+    </footer>
+</body>
+</html>
+
+
+        
